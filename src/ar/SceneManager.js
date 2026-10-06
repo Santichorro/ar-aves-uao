@@ -51,4 +51,12 @@ export class SceneManager {
     this.cubo.position.set(x, y + PRUEBA_AR.cuboLado / 2, z);
     this.cubo.visible = true;
   }
+
+  colocarCuboDelanteDeCamara(distancia = 1.5) {
+  const adelante = new THREE.Vector3(0, 0, -1).applyQuaternion(this.camara.quaternion);
+  const p = this.camara.position.clone().addScaledVector(adelante, distancia);
+  p.y = this.camara.position.y - 1.2;
+  this.cubo.position.copy(p);
+  this.cubo.visible = true;
+}
 }

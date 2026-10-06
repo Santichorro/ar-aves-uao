@@ -56,6 +56,12 @@ export class ArSession {
     });
   }
 
+  _ajustarCanvas(canvas) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.round(window.innerWidth * dpr);
+  canvas.height = Math.round(window.innerHeight * dpr);
+  }
+
   _arrancar(XR8, canvas, onReady) {
     // deviceEstimate().os es la forma documentada de saber el sistema (iOS / Android).
     const esMovil = ['iOS', 'Android'].includes(XR8.XrDevice.deviceEstimate().os);
@@ -73,13 +79,18 @@ export class ArSession {
       XR8.XrController.configure({ disableWorldTracking: true });
     }
 
+    this._ajustarCanvas(canvas);
+      const reajustar = () => this._ajustarCanvas(canvas);
+      window.addEventListener('resize', reajustar);
+      window.addEventListener('orientationchange', reajustar);
+
     // Orden documentado en XR8.Threejs.pipelineModule(): XrController, luego
     // GlTextureRenderer (dibuja el feed) antes que Threejs, y el módulo propio
     // al final, que así puede usar XR8.Threejs.xrScene() dentro de su onStart.
     XR8.addCameraPipelineModules([
-      XR8.XrController.pipelineModule(),
-      XR8.GlTextureRenderer.pipelineModule(),
-      XR8.Threejs.pipelineModule(),
+    XR8.GlTextureRenderer.pipelineModule(),
+    XR8.Threejs.pipelineModule(),
+    XR8.XrController.pipelineModule(),
       {
         name: 'aves-uao',
         onStart: () => {

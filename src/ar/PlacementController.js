@@ -47,12 +47,16 @@ export class PlacementController {
     }
     const acierto = aciertos[0];
 
+    const tipos = aciertos.map((a) => a.type).join(', ') || 'ninguno';
+    console.info('[AR] hitTest:', aciertos.length, tipos, acierto);
+
     if (!acierto) {
-      this._alAvisar('Todavía no hay superficie: mueve el teléfono despacio y toca de nuevo.');
+      this._escena.colocarCuboDelanteDeCamara(1.5);
+      this._alAvisar('hitTest vacío: cubo de prueba a 1,5 m al frente.');
       return;
     }
 
     this._escena.colocarCuboEn(acierto.position);
-    this._alAvisar('Cubo de 20 cm anclado. Toca otra vez para moverlo.');
+    this._alAvisar(`Cubo colocado. hitTest: ${tipos}, a ${acierto.distance.toFixed(2)} m.`);
   }
 }
