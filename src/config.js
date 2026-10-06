@@ -22,3 +22,9 @@ export const VOLUMENES = {
   interfaz: 0.7,
   ambiente: 0.4,
 };
+
+export const PRUEBA_AR = {
+  // Cubo de viabilidad (día 1): 20 cm de lado, medidos en metros reales gracias a
+  // XR8.XrController.configure({scale: 'absolute'}).
+  cuboLado: 0.2,
+};

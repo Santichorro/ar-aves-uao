@@ -1,8 +1,9 @@
 import './styles/main.css';
 import { App } from './core/App.js';
 
-// Arranque: crea la App, que carga aves.json y muestra la bienvenida (sección 5).
-// TODO: en App.init() cargar los datos con BirdRepository y abrir la pantalla de bienvenida.
+// Arranque: la App abre la sesión AR de inmediato (cámara + hitTest) y muestra el
+// estado en #ar-instruccion. La carga de aves.json queda para una iteración siguiente.
 const app = new App();
+app.init();
 
 export default app;
