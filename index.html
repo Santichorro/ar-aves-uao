@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Aves UAO</title>
+
+  <!-- Motor de 8th Wall: copiar su contenido a public/external/xr/ -->
+  <script async src="./external/xr/xr.js" data-preload-chunks="slam"></script>
+
+  <!-- Solo lo necesario para que las pantallas funcionen. El diseño va después en src/styles/main.css -->
+  <style>html,body{height:100%;margin:0}#ar-canvas{width:100%;height:100%;position:fixed;inset:0}.screen{display:none;position:fixed;inset:0;overflow-y:auto}.screen.active{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-B_1M8oOO.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-kt4cMCLb.css">
+</head>
+<body>
+  <canvas id="ar-canvas"></canvas>
+
+  <main id="app">
+
+    <!-- 1. Bienvenida -->
+    <section class="screen active" id="screen-bienvenida">
+      <h1>Aves del campus UAO</h1>
+      <p>Encuentra aves de la UAO en realidad aumentada y pon a prueba lo que aprendiste.</p>
+      <button id="btn-comenzar" type="button">Comenzar</button>
+      <button id="btn-creditos" type="button">Créditos</button>
+    </section>
+
+    <!-- 2. Catálogo -->
+    <section class="screen" id="screen-catalogo">
+      <h2>Elige un ave</h2>
+      <div id="lista-aves"></div>
+    </section>
+
+    <!-- 3. Ficha del ave -->
+    <section class="screen" id="screen-ficha">
+      <button id="btn-ficha-volver" type="button">Volver</button>
+      <img id="ficha-foto" alt="">
+      <h2 id="ficha-nombre"></h2>
+      <p id="ficha-cientifico"></p>
+      <p id="ficha-descripcion"></p>
+      <p>Hábitat: <span id="ficha-habitat"></span></p>
+      <p>Dieta: <span id="ficha-dieta"></span></p>
+      <p>Dónde verla en el campus: <span id="ficha-zona"></span></p>
+      <p>Dato curioso: <span id="ficha-curioso"></span></p>
+      <p>Estado de conservación: <span id="ficha-conservacion"></span></p>
+      <button id="btn-ficha-canto" type="button">Escuchar su canto</button>
+      <button id="btn-ver-ar" type="button">Ver en AR</button>
+    </section>
+
+    <!-- 4. Experiencia AR -->
+    <section class="screen" id="screen-ar">
+      <p id="ar-instruccion">Apunta al suelo y mueve el teléfono despacio.</p>
+      <div id="ar-panel-hotspot" hidden>
+        <h3 id="hotspot-titulo"></h3>
+        <p id="hotspot-texto"></p>
+        <button id="btn-hotspot-cerrar" type="button">Cerrar</button>
+      </div>
+      <div id="ar-acciones">
+        <button id="btn-ar-cantar" type="button">Cantar</button>
+        <button id="btn-ar-volar" type="button">Volar</button>
+        <button id="btn-ar-habitat" type="button">Hábitat</button>
+        <button id="btn-ar-tamano" type="button">Comparar tamaño</button>
+        <button id="btn-ar-quiz" type="button">Iniciar reto</button>
+        <button id="btn-ar-salir" type="button">Salir</button>
+      </div>
+    </section>
+
+    <!-- 5. Quiz -->
+    <section class="screen" id="screen-quiz">
+      <p id="quiz-progreso"></p>
+      <h2 id="quiz-pregunta"></h2>
+      <div id="quiz-opciones"></div>
+      <p id="quiz-retro"></p>
+    </section>
+
+    <!-- 6. Resultado -->
+    <section class="screen" id="screen-resultado">
+      <h2>Reto terminado</h2>
+      <p id="resultado-puntaje"></p>
+      <p id="resultado-insignia">Observador UAO</p>
+      <button id="btn-reintentar" type="button">Intentar de nuevo</button>
+      <button id="btn-otra-ave" type="button">Ver otra ave</button>
+    </section>
+
+    <!-- 7. Créditos -->
+    <section class="screen" id="screen-creditos">
+      <h2>Créditos</h2>
+      <ul id="lista-creditos"></ul>
+      <button id="btn-creditos-volver" type="button">Volver</button>
+    </section>
+
+  </main>
+</body>
+</html>
