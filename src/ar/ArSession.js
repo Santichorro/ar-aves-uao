@@ -5,6 +5,7 @@
 //   XR8.XrController.updateCameraProjectionMatrix() y los callbacks
 //   onStart / onCameraStatusChange / onException de un CameraPipelineModule.
 import * as THREE from 'three';
+import { MODO_CAMARA } from '../config.js';
 
 // El módulo Threejs del motor lanza "window.THREE does not exist..." si la global
 // no está puesta, y hay que fijarla antes de registrar los módulos de la pipeline.
@@ -57,10 +58,39 @@ export class ArSession {
   }
 
   _ajustarCanvas(canvas) {
+  const W = window.innerWidth;
+  const H = window.innerHeight;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.round(window.innerWidth * dpr);
-  canvas.height = Math.round(window.innerHeight * dpr);
+  let w = W;
+  let h = H;
+
+  if (MODO_CAMARA === 'sin-zoom' && this._aspectoVideo) {
+    const largo = Math.max(this._aspectoVideo, 1 / this._aspectoVideo); // >= 1
+    const ratio = H >= W ? 1 / largo : largo;                            // ancho/alto del feed
+    if (W / H > ratio) w = H * ratio;
+    else h = W / ratio;
   }
+
+  Object.assign(canvas.style, {
+    position: 'fixed',
+    inset: 'auto',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: `${w}px`,
+    height: `${h}px`,
+  });
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+}
+
+_programarAjuste(canvas) {
+  const ajustar = () => this._ajustarCanvas(canvas);
+  const conRetraso = () => { ajustar(); setTimeout(ajustar, 300); };
+  window.addEventListener('resize', conRetraso);
+  window.addEventListener('orientationchange', conRetraso);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', conRetraso);
+}
 
   _arrancar(XR8, canvas, onReady) {
     // deviceEstimate().os es la forma documentada de saber el sistema (iOS / Android).
@@ -80,9 +110,7 @@ export class ArSession {
     }
 
     this._ajustarCanvas(canvas);
-      const reajustar = () => this._ajustarCanvas(canvas);
-      window.addEventListener('resize', reajustar);
-      window.addEventListener('orientationchange', reajustar);
+    this._programarAjuste(canvas);
 
     // Orden documentado en XR8.Threejs.pipelineModule(): XrController, luego
     // GlTextureRenderer (dibuja el feed) antes que Threejs, y el módulo propio
@@ -91,23 +119,28 @@ export class ArSession {
     XR8.GlTextureRenderer.pipelineModule(),
     XR8.Threejs.pipelineModule(),
     XR8.XrController.pipelineModule(),
-      {
-        name: 'aves-uao',
-        onStart: () => {
-          const { scene, camera } = XR8.Threejs.xrScene();
-          if (this._conTracking) {
-            // Sincroniza el origen del tracking con la escena (ejemplo de la doc).
-            XR8.XrController.updateCameraProjectionMatrix({
-              origin: camera.position,
-              facing: camera.quaternion,
-            });
-          }
-          onReady({ scene, camera });
-        },
-        onCameraStatusChange: (estado) => this._onEstado(estado),
-        onException: (error) => this._onExcepcion(error),
+    {
+      name: 'aves-uao',
+      onStart: () => {
+        const { scene, camera } = XR8.Threejs.xrScene();
+        if (this._conTracking) {
+          // Sincroniza el origen del tracking con la escena (ejemplo de la doc).
+          XR8.XrController.updateCameraProjectionMatrix({
+            origin: camera.position,
+            facing: camera.quaternion,
+          });
+        }
+        onReady({ scene, camera });
       },
-    ]);
+      onVideoSizeChange: ({ videoWidth, videoHeight, canvasWidth, canvasHeight }) => {
+        console.info('[AR] video', videoWidth, videoHeight, 'canvas', canvasWidth, canvasHeight);
+        this._aspectoVideo = videoWidth / videoHeight;
+        this._ajustarCanvas(canvas);
+      },
+      onCameraStatusChange: (estado) => this._onEstado(estado),
+      onException: (error) => this._onExcepcion(error),
+    },
+  ]);
 
     XR8.run({
       canvas,

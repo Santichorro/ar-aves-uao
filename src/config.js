@@ -23,6 +23,10 @@ export const VOLUMENES = {
   ambiente: 0.4,
 };
 
+// 'sin-zoom': muestra toda la cámara (con barras negras).
+// 'completo': llena la pantalla recortando la cámara.
+export const MODO_CAMARA = 'sin-zoom';
+
 export const PRUEBA_AR = {
   // Cubo de viabilidad (día 1): 20 cm de lado, medidos en metros reales gracias a
   // XR8.XrController.configure({scale: 'absolute'}).

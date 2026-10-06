@@ -36,8 +36,10 @@ export class PlacementController {
     if (!XR8 || !XR8.XrController) return;
 
     // Coordenadas normalizadas 0..1 del feed de cámara (ejemplo de hitTest()).
-    const x = evento.clientX / window.innerWidth;
-    const y = evento.clientY / window.innerHeight;
+    const caja = document.getElementById('ar-canvas').getBoundingClientRect();
+    const x = (evento.clientX - caja.left) / caja.width;
+    const y = (evento.clientY - caja.top) / caja.height;
+    if (x < 0 || x > 1 || y < 0 || y > 1) return; // toque en las barras negras
     let aciertos = [];
     try {
       aciertos = XR8.XrController.hitTest(x, y, ['FEATURE_POINT']);
