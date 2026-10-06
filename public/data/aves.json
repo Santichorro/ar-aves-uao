@@ -1,0 +1,144 @@
+{
+  "aves": [
+    {
+      "id": "pellar",
+      "nombre": "Pellar",
+      "cientifico": "Vanellus chilensis",
+      "descripcion": "Limícola de patas largas y llamada fuerte. Pecho negro, vientre blanco, cabeza gris y alas con reflejos verdosos.",
+      "habitat": "Pastizales cortos, orillas de ríos y zonas abiertas con agua cerca.",
+      "dieta": "Insectos, lombrices y semillas que busca caminando por el suelo.",
+      "zonaCampus": "Céspedes y canchas del campus, especialmente cerca del pasto recién cortado.",
+      "datoCurioso": "Cuando se acerca un depredador al nido, finge estar herida para alejarlo.",
+      "conservacion": "Preocupación menor (UICN)",
+      "tamanoRealCm": 34,
+      "escalaAR": 1.0,
+      "modelo": "aves/pellar/modelo.glb",
+      "animaciones": { "idle": "Idle", "vuelo": "Fly", "canto": "Sing", "comer": "Eat" },
+      "miniatura": "aves/pellar/mini.jpg",
+      "canto": "aves/pellar/canto.mp3",
+      "fotos": ["aves/pellar/fotos/1.jpg"],
+      "hotspots": [
+        { "ancla": "pico", "texto": "Pico corto con puntas sensibles para capturar insectos en el suelo." },
+        { "ancla": "ala", "texto": "Las alas tienen una franja negra que se ve claramente en vuelo." },
+        { "ancla": "pata", "texto": "Patas largas y rosadas que le permiten caminar sobre hierba y barro." }
+      ],
+      "quiz": [
+        { "pregunta": "¿Cómo es el pico del Pellar?", "opciones": ["Corto y recto, para buscar en el suelo", "Largo y curvo", "Grueso y ganchudo"], "correcta": 0, "retro": "Su pico es corto, ideal para capturar insectos y lombrices caminando por el pasto." },
+        { "pregunta": "¿Dónde suele anidar el Pellar?", "opciones": ["En árboles altos", "En el suelo, entre el pasto", "En tejados"], "correcta": 1, "retro": "Anida en el suelo y protege el nido fingiendo estar herido." },
+        { "pregunta": "¿Qué canto reconoce?", "opciones": ["Un trino suave y largo", "Una llamada fuerte y estridente", "Un silbido descendente"], "correcta": 1, "retro": "Su llamada es fuerte y estridente; de ahí viene su nombre 'pellar'." }
+      ]
+    },
+    {
+      "id": "paloma",
+      "nombre": "Paloma",
+      "cientifico": "Columba livia",
+      "descripcion": "Paloma gris urbana de cuello con reflejos verdosos, dos bandas negras en las alas y ojos anaranjados.",
+      "habitat": "Edificios, cornisas, plazas y parques urbanos; muy adaptada a la ciudad.",
+      "dieta": "Semillas, granos y sobras de comida.",
+      "zonaCampus": "Cornisas y techos de los edificios, y plazas donde busca alimento.",
+      "datoCurioso": "Reconoce su reflejo en un espejo, una de las pocas aves que pasa esa prueba.",
+      "conservacion": "Preocupación menor (UICN)",
+      "tamanoRealCm": 33,
+      "escalaAR": 1.0,
+      "modelo": "aves/paloma/modelo.glb",
+      "animaciones": { "idle": "Idle", "vuelo": "Fly", "canto": "Sing", "comer": "Eat" },
+      "miniatura": "aves/paloma/mini.jpg",
+      "canto": "aves/paloma/canto.mp3",
+      "fotos": ["aves/paloma/fotos/1.jpg"],
+      "hotspots": [
+        { "ancla": "pico", "texto": "Pico corto y blanquecino, adaptable a semillas y comida urbana." },
+        { "ancla": "ala", "texto": "Dos bandas negras en el bajo ala son su distintivo frente a otras palomas." },
+        { "ancla": "pata", "texto": "Patas rojizas; camina con la cabeza moviéndose adelante y atrás." }
+      ],
+      "quiz": [
+        { "pregunta": "¿Qué bandas tiene el ala de la Paloma gris?", "opciones": ["Dos bandas negras", "Franja blanca", "Ninguna, es totalmente gris"], "correcta": 0, "retro": "Las dos bandas negras en el ala la distinguen de otras palomas." },
+        { "pregunta": "¿Dónde suele descansar en el campus?", "opciones": ["En el agua", "En cornisas y techos", "Enterrada"], "correcta": 1, "retro": "Usa cornisas y techos como lugar de descanso y anidación." },
+        { "pregunta": "¿Qué come principalmente?", "opciones": ["Insectos vivos", "Peces", "Semillas y granos"], "correcta": 2, "retro": "Su dieta se basa en semillas, granos y restos de comida." }
+      ]
+    },
+    {
+      "id": "azulejo",
+      "nombre": "Azulejo común",
+      "cientifico": "Thraupis episcopus",
+      "descripcion": "Tangara gris azulada con alas y cola más oscuras y pico robusto; muy común en árboles y cables.",
+      "habitat": "Copas de árboles, jardines, parques y bordes de bosque; se percha en cables.",
+      "dieta": "Frutas, bayas e insectos.",
+      "zonaCampus": "Copa de los árboles del campus y cables de alumbrado entre edificios.",
+      "datoCurioso": "Se deja ver con facilidad y suele moverse en parejas o grupos pequeños.",
+      "conservacion": "Preocupación menor (UICN)",
+      "tamanoRealCm": 18,
+      "escalaAR": 1.0,
+      "modelo": "aves/azulejo/modelo.glb",
+      "animaciones": { "idle": "Idle", "vuelo": "Fly", "canto": "Sing", "comer": "Eat" },
+      "miniatura": "aves/azulejo/mini.jpg",
+      "canto": "aves/azulejo/canto.mp3",
+      "fotos": ["aves/azulejo/fotos/1.jpg"],
+      "hotspots": [
+        { "ancla": "pico", "texto": "Pico grueso y corto, típico de las tangaras, ideal para frutas." },
+        { "ancla": "ala", "texto": "El gris azulado de las alas le da su nombre 'azulejo'." },
+        { "ancla": "cola", "texto": "Cola media que mueve constantemente mientras está posada." }
+      ],
+      "quiz": [
+        { "pregunta": "¿Qué color domina en el Azulejo?", "opciones": ["Rojo intenso", "Gris azulado", "Negro y amarillo"], "correcta": 1, "retro": "Su plumaje es gris azulado, más oscuro en alas y cola." },
+        { "pregunta": "¿Dónde suele posarse?", "opciones": ["En cables y copas de árboles", "En el fondo de ríos", "Bajo la tierra"], "correcta": 0, "retro": "Se percha con frecuencia en cables y en la copa de los árboles." },
+        { "pregunta": "¿Cuál es parte de su dieta?", "opciones": ["Solo semillas duras", "Peces pequeños", "Frutas, bayas e insectos"], "correcta": 2, "retro": "Come frutas, bayas e insectos." }
+      ]
+    },
+    {
+      "id": "pechirrojo",
+      "nombre": "Pechirrojo",
+      "cientifico": "Pyrocephalus rubinus",
+      "descripcion": "Mosquero de cuerpo rojo brillante con antifaz marrón; la hembra es gris parduzca con garganta anaranjada.",
+      "habitat": "Árboles abiertos, jardines, potreros y zonas con perchas bajas cerca de agua.",
+      "dieta": "Insectos que captura al vuelo desde una percha.",
+      "zonaCampus": "Perchas bajas del campus: alambres, cercas y ramas desde donde sale a cazar.",
+      "datoCurioso": "El macho canta incluso volando, con un trino corto mientras se deja caer desde el aire.",
+      "conservacion": "Preocupación menor (UICN)",
+      "tamanoRealCm": 14,
+      "escalaAR": 1.0,
+      "modelo": "aves/pechirrojo/modelo.glb",
+      "animaciones": { "idle": "Idle", "vuelo": "Fly", "canto": "Sing", "comer": "Eat" },
+      "miniatura": "aves/pechirrojo/mini.jpg",
+      "canto": "aves/pechirrojo/canto.mp3",
+      "fotos": ["aves/pechirrojo/fotos/1.jpg"],
+      "hotspots": [
+        { "ancla": "pico", "texto": "Pico fino y negro, perfecto para atrapar insectos al vuelo." },
+        { "ancla": "ala", "texto": "Alas cortadas para salidas rápidas tras sus presas." },
+        { "ancla": "cabeza", "texto": "El macho tiene antifaz marrón sobre la cara y la coronilla roja." }
+      ],
+      "quiz": [
+        { "pregunta": "¿Cómo es el macho adulto?", "opciones": ["Verde con cabeza azul", "Rojo brillante con antifaz marrón", "Gris azulado"], "correcta": 1, "retro": "El macho es rojo brillante con antifaz marrón; la hembra es gris parduzca." },
+        { "pregunta": "¿Cómo caza sus alimentos?", "opciones": ["Cavando en la tierra", "Nadando en el río", "Desde una percha, saliendo al vuelo"], "correcta": 2, "retro": "Es un mosquero: espera en una percha y atrapa insectos al vuelo." },
+        { "pregunta": "¿Qué tamaño tiene?", "opciones": ["Unos 14 cm", "Unos 40 cm", "Unos 80 cm"], "correcta": 0, "retro": "Mide unos 14 cm, una de las aves más pequeñas del campus." }
+      ]
+    },
+    {
+      "id": "loro",
+      "nombre": "Loro cabeciazul",
+      "cientifico": "Pionus menstruus",
+      "descripcion": "Loro de plumaje verde con cabeza y cuello azul intenso, pico amarillo y cola corta y redondeada.",
+      "habitat": "Bosques, bordes de selva y zonas arboladas; en bandadas ruidosas.",
+      "dieta": "Frutos, semillas y frutas que rompe con el pico.",
+      "zonaCampus": "Copa de árboles altos del campus; sobrevuela en bandadas ruidosas al atardecer.",
+      "datoCurioso": "Su aleteo es profundo y rápido; se escucha venir antes de verlo.",
+      "conservacion": "Preocupación menor (UICN)",
+      "tamanoRealCm": 29,
+      "escalaAR": 1.0,
+      "modelo": "aves/loro/modelo.glb",
+      "animaciones": { "idle": "Idle", "vuelo": "Fly", "canto": "Sing", "comer": "Eat" },
+      "miniatura": "aves/loro/mini.jpg",
+      "canto": "aves/loro/canto.mp3",
+      "fotos": ["aves/loro/fotos/1.jpg"],
+      "hotspots": [
+        { "ancla": "pico", "texto": "Pico fuerte y amarillo que rompe semillas y frutos duros." },
+        { "ancla": "ala", "texto": "Alas cortas y anchas con aleteo profundo, muy característico." },
+        { "ancla": "cola", "texto": "Cola corta y redondeada, a diferencia de otras psitácidas de cola larga." }
+      ],
+      "quiz": [
+        { "pregunta": "¿Qué parte del cuerpo es azul?", "opciones": ["Las patas", "La cabeza y el cuello", "La cola completa"], "correcta": 1, "retro": "Su cabeza y cuello son azul intenso sobre el cuerpo verde." },
+        { "pregunta": "¿Cómo es su vuelo?", "opciones": ["Aleteo profundo y ruidoso", "Planeo silencioso continuo", "Aleteo lento y suave"], "correcta": 0, "retro": "Su aleteo es profundo y rápido; su bandada se escucha antes de verse." },
+        { "pregunta": "¿Qué come?", "opciones": ["Solo néctar", "Insectos acuáticos", "Frutos y semillas"], "correcta": 2, "retro": "Come frutos y semillas que rompe con su pico fuerte." }
+      ]
+    }
+  ]
+}
