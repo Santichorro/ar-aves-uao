@@ -23,9 +23,9 @@ export const VOLUMENES = {
   ambiente: 0.4,
 };
 
-// 'sin-zoom': muestra toda la cámara (con barras negras).
-// 'completo': llena la pantalla recortando la cámara.
-export const MODO_CAMARA = 'sin-zoom';
+// true: pide a la cámara una imagen 16:9 (menos recorte en vertical).
+// Si la cámara falla o se ve estirada, poner false.
+export const CAMARA_16_9 = true;
 
 export const PRUEBA_AR = {
   // Cubo de viabilidad (día 1): 20 cm de lado, medidos en metros reales gracias a

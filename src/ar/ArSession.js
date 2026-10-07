@@ -5,7 +5,7 @@
 //   XR8.XrController.updateCameraProjectionMatrix() y los callbacks
 //   onStart / onCameraStatusChange / onException de un CameraPipelineModule.
 import * as THREE from 'three';
-import { MODO_CAMARA } from '../config.js';
+import { CAMARA_16_9 } from '../config.js';
 
 // El módulo Threejs del motor lanza "window.THREE does not exist..." si la global
 // no está puesta, y hay que fijarla antes de registrar los módulos de la pipeline.
@@ -57,40 +57,67 @@ export class ArSession {
     });
   }
 
-  _ajustarCanvas(canvas) {
-  const W = window.innerWidth;
-  const H = window.innerHeight;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  let w = W;
-  let h = H;
-
-  if (MODO_CAMARA === 'sin-zoom' && this._aspectoVideo) {
-    const largo = Math.max(this._aspectoVideo, 1 / this._aspectoVideo); // >= 1
-    const ratio = H >= W ? 1 / largo : largo;                            // ancho/alto del feed
-    if (W / H > ratio) w = H * ratio;
-    else h = W / ratio;
+  // Pide al navegador una imagen 16:9 antes de que el motor abra la cámara.
+  // XR8.run() no tiene opciones de resolución, por eso se envuelve getUserMedia.
+  _pedirCamara16a9() {
+    const md = navigator.mediaDevices;
+    if (!CAMARA_16_9 || !md || md.__aves16a9) return;
+    const original = md.getUserMedia.bind(md);
+    md.getUserMedia = (restricciones) => {
+      if (restricciones && restricciones.video) {
+        const v = typeof restricciones.video === 'object' ? restricciones.video : {};
+        restricciones = {
+          ...restricciones,
+          video: {
+            ...v,
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+            aspectRatio: { ideal: 16 / 9 },
+          },
+        };
+      }
+      return original(restricciones);
+    };
+    md.__aves16a9 = true;
   }
 
-  Object.assign(canvas.style, {
-    position: 'fixed',
-    inset: 'auto',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: `${w}px`,
-    height: `${h}px`,
-  });
-  canvas.width = Math.round(w * dpr);
-  canvas.height = Math.round(h * dpr);
-}
+  // El canvas siempre ocupa toda la pantalla visible.
+  _ajustarCanvas(canvas) {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const vv = window.visualViewport;
+    const W = Math.round(vv ? vv.width : window.innerWidth);
+    const H = Math.round(vv ? vv.height : window.innerHeight);
 
-_programarAjuste(canvas) {
-  const ajustar = () => this._ajustarCanvas(canvas);
-  const conRetraso = () => { ajustar(); setTimeout(ajustar, 300); };
-  window.addEventListener('resize', conRetraso);
-  window.addEventListener('orientationchange', conRetraso);
-  if (window.visualViewport) window.visualViewport.addEventListener('resize', conRetraso);
-}
+    Object.assign(canvas.style, {
+      position: 'fixed',
+      inset: '0',
+      left: '',
+      top: '',
+      transform: 'none',
+      width: '100%',
+      height: '100%',
+    });
+
+    const bw = Math.round(W * dpr);
+    const bh = Math.round(H * dpr);
+    if (canvas.width !== bw || canvas.height !== bh) {
+      canvas.width = bw;
+      canvas.height = bh;
+    }
+  }
+
+  // iOS reporta el tamaño final con retraso al girar: se reajusta varias veces.
+  _reajustarVarias(canvas) {
+    [0, 150, 400, 1000].forEach((ms) => setTimeout(() => this._ajustarCanvas(canvas), ms));
+  }
+
+  _programarAjuste(canvas) {
+    const ajustar = () => this._reajustarVarias(canvas);
+    window.addEventListener('resize', ajustar);
+    window.addEventListener('orientationchange', ajustar);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', ajustar);
+    if (screen.orientation) screen.orientation.addEventListener('change', ajustar);
+  }
 
   _arrancar(XR8, canvas, onReady) {
     // deviceEstimate().os es la forma documentada de saber el sistema (iOS / Android).
@@ -109,12 +136,13 @@ _programarAjuste(canvas) {
       XR8.XrController.configure({ disableWorldTracking: true });
     }
 
+    this._pedirCamara16a9();
     this._ajustarCanvas(canvas);
     this._programarAjuste(canvas);
 
-    // Orden documentado en XR8.Threejs.pipelineModule(): XrController, luego
-    // GlTextureRenderer (dibuja el feed) antes que Threejs, y el módulo propio
-    // al final, que así puede usar XR8.Threejs.xrScene() dentro de su onStart.
+    // Orden mantenido a propósito: GlTextureRenderer dibuja el feed, Threejs crea la
+    // escena y XrController va después; el módulo propio queda al final para poder
+    // usar XR8.Threejs.xrScene() dentro de su onStart.
     XR8.addCameraPipelineModules([
     XR8.GlTextureRenderer.pipelineModule(),
     XR8.Threejs.pipelineModule(),
@@ -132,12 +160,15 @@ _programarAjuste(canvas) {
         }
         onReady({ scene, camera });
       },
+      onDeviceOrientationChange: () => this._reajustarVarias(canvas),
       onVideoSizeChange: ({ videoWidth, videoHeight, canvasWidth, canvasHeight }) => {
         console.info('[AR] video', videoWidth, videoHeight, 'canvas', canvasWidth, canvasHeight);
-        this._aspectoVideo = videoWidth / videoHeight;
         this._ajustarCanvas(canvas);
       },
-      onCameraStatusChange: (estado) => this._onEstado(estado),
+      onCameraStatusChange: (estado) => {
+        if (estado.status === 'hasVideo') this._reajustarVarias(canvas);
+        this._onEstado(estado);
+      },
       onException: (error) => this._onExcepcion(error),
     },
   ]);
